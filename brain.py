@@ -58,6 +58,21 @@ create_task("doing 2", task_status="Doing")
 create_task("im done!!", task_status="Done")
 create_task("done 3", task_status="Done")
 print(tasks_by_name(task_list))
+
+def show_menu():
+    global user_input
+
+    if user_input.lower() == 'ct':
+        task_name = input("Enter the name of the task: ")
+
+        new_status = input("Enter the new status for this task: ")
+        change_status(task_name, new_status)
+        
+        print("Your task status is now updated!")
+       
+            
+
+    user_input = input('')
 def show_menu(status_task_list):
     global user_input
     # print("""
@@ -121,3 +136,4 @@ create_the_list()
 #     show_menu()
 
 show_menu(create_the_list())
+
