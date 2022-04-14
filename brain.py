@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from hashlib import new
+from os import ctermid
 from tracemalloc import start
 from turtle import update
 from venv import create
@@ -11,6 +12,7 @@ class Task:
         self.startdate = startdate
 
 task_list = [] # its globallll 🌎
+
 status_list = ["Todo", "Doing", "Done"]
 
 p1 = Task('abba')
@@ -27,6 +29,29 @@ task_list.append(p2)
 # del(x[-1])
 # print(x[1].name)
 # def create_task(): # pun intended 
+
+def transpose(srcList, destList): 
+  # convert variable length list to 2D list of same length
+  m = max(map(lambda srcList: len(srcList), srcList))
+  for i in range(0, len(srcList)):
+    while len(srcList[i]) < m:
+      srcList[i].append('')
+
+  for i in range(0, len(srcList[0])):
+    row = []
+    for item in srcList: 
+      row.append(item[i])
+    destList.append(row)
+    
+  return destList
+
+x = [['a','d','g'],['b','e', 'z'],['c','f', 'y', 'x', 'z']]
+y = []
+transpose(x, y)
+print(x)
+print(y)
+
+
 
 def filter_by_status(filter_status):
     global task_list
@@ -48,6 +73,20 @@ def change_status(task, updated_status):
             task.status = updated_status
         # break (?) should i break or nah, what if there is a duplicate, god help me
 
+def find_task_by_name(task_name):
+    global task_list
+    for i in task_list:
+        if i.name == task_name:
+            return i
+
+def create_task_list_by_status():
+    global task_list
+    status_task_list = []
+    status_task_list.append(tasks_by_name(filter_by_status("Todo")))
+    status_task_list.append(tasks_by_name(filter_by_status("Doing")))
+    status_task_list.append(tasks_by_name(filter_by_status("Done")))
+
+    return status_task_list
 
 print(filter_by_status("Done"))
 print("task list", tasks_by_name(task_list))
@@ -60,80 +99,77 @@ create_task("done 3", task_status="Done")
 print(tasks_by_name(task_list))
 
 def show_menu():
-    global user_input
-
-    if user_input.lower() == 'ct':
-        task_name = input("Enter the name of the task: ")
-
-        new_status = input("Enter the new status for this task: ")
-        change_status(task_name, new_status)
-        
-        print("Your task status is now updated!")
-       
-            
-
-    user_input = input('')
-def show_menu(status_task_list):
-    global user_input
-    # print("""
-    # A) Create Task
-    # B) Show Task
-    # C) Change Task Details
-    # """)
-    # status_task_list = []
-    # status_task_list.append(tasks_by_name(filter_by_status("Todo")))
-    # status_task_list.append(tasks_by_name(filter_by_status("Doing")))
-    # status_task_list.append(tasks_by_name(filter_by_status("Done")))
-    # print('status task list')
-    print(status_task_list)
-    #max_list = max(map(lambda x: len(filter_by_status(status_list[i])), status_list))
-    #for i in status_task_list:
-
-    for row in status_task_list:
+    global task_list 
+    task_list_displayed = []
+    task_list_displayed = transpose(create_task_list_by_status(), task_list_displayed)
+    for row in task_list_displayed: 
         print("{: >20} {: >20} {: >20}".format(*row))
+    print('SHOWED MENU')
+
+    
+
+# def show_menu(status_task_list):
+#     global user_input
+#     # print("""
+#     # A) Create Task
+#     # B) Show Task
+#     # C) Change Task Details
+#     # """)
+#     # status_task_list = []
+#     # status_task_list.append(tasks_by_name(filter_by_status("Todo")))
+#     # status_task_list.append(tasks_by_name(filter_by_status("Doing")))
+#     # status_task_list.append(tasks_by_name(filter_by_status("Done")))
+#     # print('status task list')
+#     print(status_task_list)
+#     #max_list = max(map(lambda x: len(filter_by_status(status_list[i])), status_list))
+#     #for i in status_task_list:
+
+#     for row in status_task_list:
+#         print("{: >20} {: >20} {: >20}".format(*row))
        
             
 
-    user_input = input('')
+#     user_input = input('')
 
-def create_the_list():
-    status_task_list = []
-    status_task_list.append(tasks_by_name(filter_by_status("Todo")))
-    status_task_list.append(tasks_by_name(filter_by_status("Doing")))
-    status_task_list.append(tasks_by_name(filter_by_status("Done")))
-
-    max_list = max(map(lambda x: len(filter_by_status("Todo")), status_list))
-    print("max list", max_list)
-
-    new_list = [[],[]]
-    
-    for i in range(0, max_list):
-        for j in range(0, 3):
-            try:
-                new_list[i].append(tasks_by_name(filter_by_status(status_list[j]))[i])
-            except IndexError:
-                pass
-                #print(status_list[j])
-                #new_list[i].append([])
-                #new_list[i].append(tasks_by_name(filter_by_status(status_list[j]))[i])
-
-                # if(tasks_by_name(filter_by_status(status_list[j]))[i]):
-                #     new_list[i].append(tasks_by_name(filter_by_status(status_list[j]))[i])
-                # else:
-                #     new_list.append([[]])
-                #new_list[i].append(tasks_by_name(filter_by_status(status_list[j]))[i])
-
-    #new_list.append([])
-    print('newlist')
-    print(new_list)
-
-    return new_list
-
-create_the_list()
 # show_menu()
 # user_input = input('Enter your command: ')
 # while not(user_input.lower() == 'q'):
 #     show_menu()
 
-show_menu(create_the_list())
+def run_app():
+    global user_input, task_list, task_list_displayed 
+    show_menu()
+    print('showing menu...')
+
+    user_input = input('')
+    while not(user_input == 'q'):
+        if user_input == 'cs':
+            task_name = input("Enter the name of the task: ")
+
+            new_status = input("Enter the new status for this task: ")
+            change_status(find_task_by_name(task_name), new_status)
+
+            print(find_task_by_name(task_name).status)
+
+            print("Your task status is now updated!")
+        if user_input.lower() == 'ct':
+            task_name = input("Enter the name of the new task: ")
+
+            task_status = input("Enter the status for this task: ")
+            create_task(task_name, task_status)
+
+            print("Your new task status has been created!")
+        if user_input == 's':
+            show_menu()
+        if user_input == 'h':
+            print("""
+    ct      create task, are prompted for name and status
+    cs      change status of task, prompted for task name and new status
+    s       show board with tasks
+    h       show help menu with commands
+    q       quit/exit app
+            """)
+        user_input = input('').lower()
+
+run_app()
 
