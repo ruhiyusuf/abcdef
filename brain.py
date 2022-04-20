@@ -13,22 +13,7 @@ class Task:
 
 task_list = [] # its globallll 🌎
 
-status_list = ["Todo", "Doing", "Done"]
-
-p1 = Task('abba')
-p2 = Task('bccb')
-task_list.append(p1)
-task_list.append(p2)
-# print(p1.name)
-
-# x = [1]
-# x.append(p1)
-# x.append(Task(99))
-# print("appened to list")
-# print(x)
-# del(x[-1])
-# print(x[1].name)
-# def create_task(): # pun intended 
+status_list = ["Todo", "Doing", "Done"] 
 
 def transpose(srcList, destList): 
   # convert variable length list to 2D list of same length
@@ -44,14 +29,6 @@ def transpose(srcList, destList):
     destList.append(row)
     
   return destList
-
-x = [['a','d','g'],['b','e', 'z'],['c','f', 'y', 'x', 'z']]
-y = []
-transpose(x, y)
-print(x)
-print(y)
-
-
 
 def filter_by_status(filter_status):
     global task_list
@@ -71,6 +48,7 @@ def change_status(task, updated_status):
     for i in task_list:
         if i == task:
             task.status = updated_status
+        
         # break (?) should i break or nah, what if there is a duplicate, god help me
 
 def find_task_by_name(task_name):
@@ -88,53 +66,20 @@ def create_task_list_by_status():
 
     return status_task_list
 
-print(filter_by_status("Done"))
-print("task list", tasks_by_name(task_list))
-create_task("New task")
-print("last task date", task_list[-1].startdate)
-create_task("doing this task", task_status="Doing")
-create_task("doing 2", task_status="Doing")
-create_task("im done!!", task_status="Done")
-create_task("done 3", task_status="Done")
-print(tasks_by_name(task_list))
+create_task("history project")
+create_task("chem hw", task_status="Doing")
+create_task("math hw", task_status="Doing")
+create_task("csp test", task_status="Done")
+create_task("finish essay", task_status="Done")
+create_task("practice piano")
+create_task("", task_status="Done")
 
 def show_menu():
     global task_list 
-    task_list_displayed = []
+    task_list_displayed = [['', '', ''], status_list, ['', '', '']]
     task_list_displayed = transpose(create_task_list_by_status(), task_list_displayed)
     for row in task_list_displayed: 
         print("{: >20} {: >20} {: >20}".format(*row))
-    print('SHOWED MENU')
-
-    
-
-# def show_menu(status_task_list):
-#     global user_input
-#     # print("""
-#     # A) Create Task
-#     # B) Show Task
-#     # C) Change Task Details
-#     # """)
-#     # status_task_list = []
-#     # status_task_list.append(tasks_by_name(filter_by_status("Todo")))
-#     # status_task_list.append(tasks_by_name(filter_by_status("Doing")))
-#     # status_task_list.append(tasks_by_name(filter_by_status("Done")))
-#     # print('status task list')
-#     print(status_task_list)
-#     #max_list = max(map(lambda x: len(filter_by_status(status_list[i])), status_list))
-#     #for i in status_task_list:
-
-#     for row in status_task_list:
-#         print("{: >20} {: >20} {: >20}".format(*row))
-       
-            
-
-#     user_input = input('')
-
-# show_menu()
-# user_input = input('Enter your command: ')
-# while not(user_input.lower() == 'q'):
-#     show_menu()
 
 def run_app():
     global user_input, task_list, task_list_displayed 
@@ -171,5 +116,7 @@ def run_app():
             """)
         user_input = input('').lower()
 
-run_app()
+# run_app()
+
+print(find_task_by_name("history project"))
 
