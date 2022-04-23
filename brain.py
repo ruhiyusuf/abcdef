@@ -48,14 +48,17 @@ def change_status(task, updated_status):
     for i in task_list:
         if i == task:
             task.status = updated_status
-        
-        # break (?) should i break or nah, what if there is a duplicate, god help me
+            return
+        else:
+            continue
+    return "cannot find task, please try again"
 
 def find_task_by_name(task_name):
     global task_list
     for i in task_list:
         if i.name == task_name:
             return i
+    return "cannot find task, please try again."
 
 def create_task_list_by_status():
     global task_list
@@ -72,7 +75,6 @@ create_task("math hw", task_status="Doing")
 create_task("csp test", task_status="Done")
 create_task("finish essay", task_status="Done")
 create_task("practice piano")
-create_task("", task_status="Done")
 
 def show_menu():
     global task_list 
@@ -84,6 +86,7 @@ def show_menu():
 def run_app():
     global user_input, task_list, task_list_displayed 
     show_menu()
+    print()
     print('showing menu...')
 
     user_input = input('')
@@ -116,7 +119,4 @@ def run_app():
             """)
         user_input = input('').lower()
 
-# run_app()
-
-print(find_task_by_name("history project"))
-
+run_app()
